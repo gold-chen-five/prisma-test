@@ -6,6 +6,7 @@ import { useState } from 'react'
 
 export default function Home() {
   const [usersList,setUsersList] = useState([])
+  const [email,setEmail] = useState('')
 
   async function getUsers(){
     const res = await fetch('/api/listUser')
@@ -14,10 +15,11 @@ export default function Home() {
   }
   
   async function addUser(){
-    const res = await fetch('/api/addUser')
+    const res = await fetch(`/api/addUser?email=${email}`)
     const users = await res.json()
     console.log(users)
   }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,6 +29,7 @@ export default function Home() {
       </Head>
 
       <button onClick={() => getUsers()}>click to get users</button>
+      <input type="text" onChange={e => setEmail(e.target.value)}/>
       <button onClick={() => addUser()}>add user</button>
 
       {
